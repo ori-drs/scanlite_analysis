@@ -125,3 +125,7 @@ rosrun scanlite_analysis LiveDemoTool.py
 - NumPy
 
 ---
+This project relies on **PyCATMAUS**, a library used for segmentation and transformation functions.
+
+🔗 **Repository:** [PyCATMAUS GitHub](https://github.com/ori-drs/cat_and_maus/tree/master/cat_maus_gui/scripts/PyCATMAUS)
+
