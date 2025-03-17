@@ -1,9 +1,9 @@
-
 # Scanlite Analysis ROS Package
 
-This package provides tools for real-time ultrasound bone segmentation, 3D reconstruction, and ROS integration, complete with intuitive graphical interfaces.
+This package provides tools for real-time ultrasound bone segmentation, 3D reconstruction, ROS integration, and interactive GUI visualization.
 
-## Repository Structure
+## 📁 Project Structure
+
 ```
 scanlite_analysis/
 ├── launch/
@@ -20,70 +20,114 @@ scanlite_analysis/
 │   └── PyCATMAUS/
 │       ├── SegBone.py
 │       └── TransFunction.py
-└── package.xml
+├── package.xml
+└── CMakeLists.txt
+```
 
 ## ROS Nodes
 
 ### `segmentation_node.py`
-- Publishes real-time segmentation data through ROS topics.
+- Publishes real-time segmentation results as ROS topics.
+- Independent from GUI, facilitating integration into broader ROS systems.
 
-## GUI Tools
+## 🖥 GUI Tools (Tkinter)
 
-- **`DataAcqTool.py`**: GUI for acquiring live ultrasound data (Tkinter).
-- **`LiveDemoTool.py`**: Real-time segmentation visualization (Tkinter).
+| Tool                  | Description                                             |
+|-----------------------|---------------------------------------------------------|
+| **DataAcqTool.py**    | GUI tool for acquiring real-time data from ultrasound devices. Built using Python's Tkinter.|
+| **LiveDemoTool.py**   | Real-time bone segmentation visualization tool using Python's Tkinter. Displays segmentation overlay dynamically.|
 
-## ROS Bag Testing Tool
 
-- **`rosbagtest.py` 
-:** Tool for selecting and playing ROS bag files to test the segmentation node.
+## Functional Overview
 
-## Functionalities
+### **ROS Nodes**
 
-- **ROS Integration:**
-  - Topics: `/us_image`, `/vicon/clarius_5_marker/clarius_5_marker`.
-  - Motion synchronization: `bound_img_motion()`.
+- **`segmentation_node.py`**
+  - Publishes segmentation results independently via ROS topics.
 
-- **GUI Tools:**
-  - Ultrasound image display with segmentation overlay.
-  - Interactive control of segmentation parameters.
+### ROS Bag Testing (CatMausApp)
 
-- **Bone Segmentation:**
-  - Real-time segmentation with interactive parameter control.
+- **`rosbagtest.py`**
+  - Select and play ROS bags for validating segmentation.
 
-- **3D Reconstruction:**
-  - Converts 2D segmentation data to 3D using Vicon data.
+#### Features:
+- **ROS Integration**:
+  - Subscribes to `/us_image` and Vicon motion topics (`/vicon/clarius_5_marker/clarius_5_marker`).
+  - Synchronizes motion data with ultrasound images (`bound_img_motion()`).
 
-- **User Interactivity:**
-  - Interactive GUI buttons for real-time operations.
+- **Graphical User Interface (GUI)**:
+  - Developed with Tkinter.
+  - Displays ultrasound images with segmentation overlays using Matplotlib.
+  - Interactive controls for segmentation parameters (F0, F1, Bth, JC).
 
-## Segmentation Parameters
+- **Bone Segmentation**:
+  - Real-time segmentation via the `BoneSeg()` method.
 
-| Parameter | Meaning                    | Effect on Segmentation                                      |
-|-----------|----------------------------|-------------------------------------------------------------|
-| **F0**    | Energy continuity weight   | Controls smoothness; higher values enforce smoother edges.  |
-| **F1**    | Energy smoothness weight   | Penalizes abrupt depth changes; higher values smooth transitions. |
-| **Bth**   | Bone threshold             | Pixel intensity threshold. Lower values include more pixels. |
-| **JC**    | Jump constraint            | Limits allowed segmentation path jumps. Higher values increase flexibility. |
+- **3D Reconstruction**:
+  - Converts segmented 2D data into interactive 3D visuals using Vicon motion tracking data.
+  - Features interactive zooming and reset functionalities.
 
-## System Diagram
+- **User Interaction**:
+  - Controls for segmentation start/stop, zoom, and reset functionalities.
+  - Live updating visualization.
+
+## Explanation of Segmentation Parameters
+
+| Parameter | Meaning                     | Effect on Segmentation                           |
+|-----------|-----------------------------|---------------------------------------------------|
+| **F0**    | Energy continuity weight    | Controls smoothness along bone surfaces. Higher values enforce smoother edges. |
+| **F1**    | Energy smoothness weight    | Penalizes abrupt depth changes. Higher values produce gradual transitions. |
+| **Bth**   | Bone threshold              | Pixel intensity threshold. Lower values include more pixels as bone. |
+| **JC**    | Jump constraint             | Limits allowed segmentation path jumps. Higher values increase path flexibility. |
+
+## System Flow Diagram
 
 ```plaintext
-ROS Topics (/us_image, Vicon motion)
-  │
-  ├── segmentation_node.py ───► Segmentation Results (ROS Topics)
-  │
-  ├── DataAcqTool.py (Live Data GUI)
-  │
-  ├── LiveDemoTool.py (Real-time Segmentation GUI)
-  │
-  └── rosbagtest.py (CatMausApp - ROS Bag Playback GUI)
-        │
-        └─ Interactive 3D Visualization
+Live Ultrasound & Vicon motion data (/us_image, Vicon topics)
+│
+├─► segmentation_node.py ────► ROS Topics (segmentation data)
+│
+├─► DataAcqTool.py ────► Live device acquisition GUI (Tkinter)
+│
+├─► LiveDemoTool.py ────► Real-time visualization GUI (Tkinter)
+│
+└─► rosbagtest.py (CatMausApp)
+    │
+    ├─► GUI (Tkinter & Matplotlib)
+    ├── Image & segmentation visualization
+    ├── Segmentation parameters control
+    ├── Real-time segmentation (`BoneSeg()`)
+    └── 3D Reconstruction (interactive)
 ```
 
-## Usage Examples
+## Usage
 
+Launch the ROS segmentation nodes and related topics:
 ```bash
 roslaunch scanlite_analysis segmentation.launch
 ```
 
+Run ROS Bag Testing GUI for validating segmentation:
+```bash
+rosrun scanlite_analysis rosbagtest.py
+```
+
+Start live device acquisition GUI:
+```bash
+rosrun scanlite_analysis DataAcqTool.py
+```
+
+Real-time segmentation visualization tool:
+```bash
+rosrun scanlite_analysis LiveDemoTool.py
+```
+
+## Requirements
+
+- ROS1 ( Noetic)
+- Python 3.x
+- Tkinter
+- Matplotlib
+- NumPy
+
+---
