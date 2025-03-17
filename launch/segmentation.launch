@@ -1,0 +1,19 @@
+<launch>
+    <!-- Parameters -->
+    <arg name="image_topic" default="/us_image" />
+    <!-- <arg name="rosbag_file" default="" />  Path to rosbag file -->
+    
+        <!-- Segmentation Node -->
+    <node name="bag_play" pkg="scanlite_analysis" type="rosbagtest.py" output="screen">
+    </node>
+    <!-- Segmentation Node -->
+    <node name="image_segmenter" pkg="scanlite_analysis" type="LiveDemoTool.py" output="screen">
+        <param name="image_topic" value="$(arg image_topic)" />
+    </node>
+    
+    <!-- Play rosbag if specified -->
+    <!-- <node name="rosbag_play" pkg="rosbag" type="play" args="$(arg rosbag_file)" if="$(eval rosbag_file != '')" />
+     -->
+    <!-- Optionally start RVIZ -->
+    <!-- <node name="rviz" pkg="rviz" type="rviz" args="-d $(find catmaus_segmentation)/config/segmentation.rviz" /> -->
+</launch>
