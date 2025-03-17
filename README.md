@@ -16,10 +16,6 @@ scanlite_analysis/
 │   └── PyCATMAUS/
 │       ├── SegBone.py
 │       └── TransFunction.py
-├── src/
-│   └── PyCATMAUS/
-│       ├── SegBone.py
-│       └── TransFunction.py
 ├── package.xml
 └── CMakeLists.txt
 ```
