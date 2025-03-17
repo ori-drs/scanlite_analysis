@@ -89,9 +89,7 @@ Live Ultrasound & Vicon motion data (/us_image, Vicon topics)
 │
 ├─► DataAcqTool.py ────► Live device acquisition GUI (Tkinter)
 │
-├─► LiveDemoTool.py ────► Real-time visualization GUI (Tkinter)
-│
-└─► rosbagtest.py (CatMausApp)
+└─► LiveDemoTool.py (CatMausApp)
     │
     ├─► GUI (Tkinter & Matplotlib)
     ├── Image & segmentation visualization
