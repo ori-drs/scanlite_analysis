@@ -1,4 +1,4 @@
-# Scanlite Analysis ROS Package
+# Scanlite Analysis ROS1 Package
 
 This package provides tools for real-time ultrasound bone segmentation, 3D reconstruction, ROS integration, and interactive GUI visualization.
 
